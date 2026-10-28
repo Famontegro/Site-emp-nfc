@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projeto NFC e EMP | Tecnologia e Inovação</title>
+<meta name="description" content="Landing page acadêmica sobre NFC (Near Field Communication) e EMP: fundamentos, desenvolvimento, equipe e referências.">
+<meta name="theme-color" content="#050b16">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23050b16'/%3E%3Ccircle cx='16' cy='20' r='3' fill='%2322d3ee'/%3E%3Cpath d='M9 18a7 7 0 0 1 14 0M5 18a11 11 0 0 1 22 0' fill='none' stroke='%2322d3ee' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+<script>document.documentElement.classList.add('js');</script>
+
+<style>
+/* ==========================================================
+   VARIÁVEIS — altere aqui as cores e medidas do site inteiro
+   ========================================================== */
+:root{
+  --bg:#050b16;
+  --bg-2:#08142a;
+  --surface:#0c1a2f;
+  --surface-2:#112440;
+  --border:rgba(120,170,255,.16);
+  --text:#e8f1ff;
+  --muted:#a3b6d1;
+  --accent:#22d3ee;      /* ciano */
+  --accent-2:#3b82f6;    /* azul elétrico */
+  --accent-soft:rgba(34,211,238,.12);
+  --ok:#34d399;
+  --warn:#fbbf24;
+  --radius:18px;
+  --shadow:0 12px 32px rgba(0,0,0,.38);
+  --font:"Inter","Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;
+  --header-h:68px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;font-family:var(--font);color:var(--text);background:var(--bg);
+  line-height:1.65;font-size:1rem;overflow-x:hidden;
+}
+img,svg{max-width:100%;display:block}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+h1,h2,h3,h4{line-height:1.15;margin:0;letter-spacing:-.02em}
+p{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+section{scroll-margin-top:var(--header-h)}
+
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+
+.container{width:min(1160px,100% - 2.5rem);margin-inline:auto}
+.icon{width:1.4em;height:1.4em;flex:none}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.skip-link{
+  position:absolute;left:1rem;top:-4rem;z-index:200;background:var(--accent);color:#04101f;
+  padding:.6rem 1rem;border-radius:10px;font-weight:600;transition:top .2s;
+}
+.skip-link:focus{top:1rem;text-decoration:none}
+
+/* ---------- Cabeçalho ---------- */
+.header{
+  position:sticky;top:0;z-index:100;height:var(--header-h);
+  background:rgba(5,11,22,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid transparent;transition:border-color .3s,background .3s;
+}
+.header.scrolled{border-bottom-color:var(--border);background:rgba(5,11,22,.9)}
+.header-inner{height:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.logo{display:inline-flex;align-items:center;gap:.65rem;color:var(--text);font-weight:700;letter-spacing:-.01em}
+.logo:hover{text-decoration:none}
+.logo-mark{
+  width:36px;height:36px;border-radius:11px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#04101f;
+}
+.logo-mark .icon{width:20px;height:20px}
+.logo small{color:var(--accent);font-weight:600}
+
+.nav ul{display:flex;align-items:center;gap:.25rem}
+.nav a{
+  display:block;padding:.5rem .85rem;border-radius:999px;color:var(--muted);font-size:.93rem;font-weight:500;
+  transition:color .2s,background .2s;
+}
+.nav a:hover{color:var(--text);background:rgba(255,255,255,.05);text-decoration:none}
+.nav a.active{color:var(--accent);background:var(--accent-soft)}
+
+.nav-toggle{
+  display:none;width:44px;height:44px;border-radius:12px;border:1px solid var(--border);
+  background:var(--surface);cursor:pointer;align-items:center;justify-content:center;
+}
+.nav-toggle .bars{position:relative;width:20px;height:14px}
+.nav-toggle .bars span{position:absolute;left:0;width:100%;height:2px;border-radius:2px;background:var(--text);transition:transform .3s,opacity .2s,top .3s}
+.nav-toggle .bars span:nth-child(1){top:0}
+.nav-toggle .bars span:nth-child(2){top:6px}
+.nav-toggle .bars span:nth-child(3){top:12px}
+.nav-toggle[aria-expanded="true"] .bars span:nth-child(1){top:6px;transform:rotate(45deg)}
+.nav-toggle[aria-expanded="true"] .bars span:nth-child(2){opacity:0}
+.nav-toggle[aria-expanded="true"] .bars span:nth-child(3){top:6px;transform:rotate(-45deg)}
+
+@media (max-width:880px){
+  .nav-toggle{display:inline-flex}
+  .nav{
+    position:fixed;top:var(--header-h);left:0;right:0;padding:1rem 1.25rem 1.5rem;
+    background:rgba(5,11,22,.98);border-bottom:1px solid var(--border);
+    opacity:0;visibility:hidden;transform:translateY(-10px);
+    transition:opacity .25s,transform .25s,visibility .25s;
+  }
+  .nav.open{opacity:1;visibility:visible;transform:none}
+  .nav ul{flex-direction:column;align-items:stretch;gap:.15rem}
+  .nav a{padding:.85rem 1rem;font-size:1rem;border-radius:12px}
+}
+
+/* ---------- Botões ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  padding:.9rem 1.5rem;border-radius:999px;font-weight:600;font-size:.98rem;font-family:inherit;
+  border:1px solid transparent;cursor:pointer;transition:transform .2s,box-shadow .2s,background .2s,border-color .2s;
+}
+.btn:hover{text-decoration:none;transform:translateY(-2px)}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#04101f;box-shadow:0 10px 30px rgba(34,211,238,.25)}
+.btn-primary:hover{box-shadow:0 14px 36px rgba(34,211,238,.38)}
+.btn-ghost{background:rgba(255,255,255,.03);border-color:var(--border);color:var(--text)}
+.btn-ghost:hover{border-color:var(--accent);background:var(--accent-soft)}
+
+/* ---------- Hero ---------- */
+.hero{
+  position:relative;min-height:calc(100vh - var(--header-h));min-height:calc(100svh - var(--header-h));
+  display:flex;align-items:center;padding:4rem 0 5rem;overflow:hidden;
+  background:
+    radial-gradient(900px 500px at 85% 20%,rgba(59,130,246,.22),transparent 60%),
+    radial-gradient(700px 500px at 5% 90%,rgba(34,211,238,.12),transparent 60%),
+    var(--bg);
+}
+.hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(120,170,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(120,170,255,.06) 1px,transparent 1px);
+  background-size:56px 56px;
+  -webkit-mask-image:radial-gradient(ellipse at 60% 40%,#000 20%,transparent 75%);
+  mask-image:radial-gradient(ellipse at 60% 40%,#000 20%,transparent 75%);
+}
+.hero-grid{position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:center}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:.55rem;padding:.4rem .9rem;border-radius:999px;
+  border:1px solid var(--border);background:rgba(34,211,238,.08);color:var(--accent);
+  font-size:.82rem;font-weight:600;letter-spacing:.04em;
+}
+.eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}
+.hero h1{font-size:clamp(2.2rem,5.4vw,4rem);margin:1.4rem 0 1.2rem;font-weight:800}
+.grad{background:linear-gradient(120deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{font-size:clamp(1.02rem,1.6vw,1.2rem);color:var(--muted);max-width:56ch}
+.hero-cta{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:2rem}
+.facts{display:flex;flex-wrap:wrap;gap:1.5rem 2.2rem;margin-top:2.6rem;padding-top:1.6rem;border-top:1px solid var(--border)}
+.fact strong{display:block;font-size:1.25rem;color:var(--text)}
+.fact span{font-size:.82rem;color:var(--muted)}
+
+.hero-art{position:relative;width:min(480px,100%);margin-inline:auto}
+.hero-art svg{width:100%;height:auto;filter:drop-shadow(0 20px 50px rgba(34,211,238,.18))}
+.ring{transform-box:fill-box;transform-origin:center;animation:pulse 4.5s ease-in-out infinite}
+.ring.r2{animation-delay:.6s}.ring.r3{animation-delay:1.2s}.ring.r4{animation-delay:1.8s}
+@keyframes pulse{0%,100%{transform:scale(.94);opacity:.35}50%{transform:scale(1.03);opacity:1}}
+.float{animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-art{order:-1;width:min(340px,80%)}
+  .hero{padding-top:2.5rem}
+}
+
+/* ---------- Seções genéricas ---------- */
+.section{padding:6rem 0}
+.section.alt{background:var(--bg-2);border-block:1px solid var(--border)}
+.section-head{max-width:720px;margin-bottom:3rem}
+.kicker{display:inline-block;color:var(--accent);font-size:.82rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.8rem}
+.section-head h2{font-size:clamp(1.8rem,3.6vw,2.7rem);font-weight:800}
+.section-head p{color:var(--muted);margin-top:1rem;font-size:1.05rem}
+
+.grid{display:grid;gap:1.4rem}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(270px,1fr))}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+
+.card{
+  background:linear-gradient(180deg,var(--surface-2),var(--surface));
+  border:1px solid var(--border);border-radius:var(--radius);padding:1.7rem;box-shadow:var(--shadow);
+  transition:transform .3s,border-color .3s,box-shadow .3s;
+}
+.card:hover{transform:translateY(-4px);border-color:rgba(34,211,238,.45);box-shadow:0 18px 40px rgba(0,0,0,.45)}
+.card-icon{
+  width:46px;height:46px;border-radius:13px;display:grid;place-items:center;margin-bottom:1.1rem;
+  background:var(--accent-soft);color:var(--accent);border:1px solid rgba(34,211,238,.25);
+}
+.card h3{font-size:1.15rem;margin-bottom:.6rem;font-weight:700}
+.card p,.card li{color:var(--muted);font-size:.97rem}
+.card ul.dots li{position:relative;padding-left:1.1rem;margin-top:.45rem}
+.card ul.dots li::before{content:"";position:absolute;left:0;top:.7em;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+
+/* texto provisório — troque pelo conteúdo real do grupo */
+.ph{
+  color:#8fdcee;font-size:.95rem;border-left:2px dashed rgba(34,211,238,.55);
+  padding:.15rem 0 .15rem .85rem;margin-top:.5rem;
+}
+.card .ph{color:#8fdcee}
+
+/* ---------- NFC ---------- */
+.split{display:grid;grid-template-columns:1.1fr .9fr;gap:2.5rem;align-items:center;margin-bottom:2.2rem}
+.figure{
+  background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid var(--border);
+  border-radius:var(--radius);padding:1.2rem;box-shadow:var(--shadow);
+}
+.figure svg{width:100%;height:auto}
+.figure figcaption{color:var(--muted);font-size:.88rem;margin-top:.9rem;padding:0 .3rem}
+.figure figcaption strong{color:var(--text)}
+
+.steps-mini{counter-reset:s;display:grid;gap:1rem}
+.steps-mini li{counter-increment:s;display:flex;gap:1rem;align-items:flex-start;color:var(--muted)}
+.steps-mini li::before{
+  content:counter(s);flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+  background:var(--accent-soft);color:var(--accent);font-weight:700;border:1px solid rgba(34,211,238,.3);
+}
+.steps-mini b{color:var(--text)}
+.split h3{font-size:1.5rem;margin-bottom:1.2rem}
+
+.chips{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1rem}
+.chip{
+  display:inline-flex;align-items:center;gap:.55rem;padding:.6rem 1rem;border-radius:999px;
+  background:var(--surface);border:1px solid var(--border);color:var(--text);font-size:.92rem;
+}
+.chip .icon{color:var(--accent);width:1.2em;height:1.2em}
+.subhead{font-size:1.3rem;margin:3rem 0 .4rem}
+
+.proscons .card h3{display:flex;align-items:center;gap:.6rem}
+.proscons li{display:flex;gap:.7rem;margin-top:.7rem;align-items:flex-start}
+.proscons li .icon{margin-top:.2em;width:1.1em;height:1.1em}
+.pro .icon{color:var(--ok)}.con .icon{color:var(--warn)}
+
+@media (max-width:900px){.split{grid-template-columns:1fr}}
+
+/* ---------- EMP ---------- */
+.notice{
+  display:flex;gap:1rem;align-items:flex-start;padding:1.2rem 1.4rem;border-radius:var(--radius);
+  border:1px dashed rgba(251,191,36,.55);background:rgba(251,191,36,.07);color:#f4dca0;margin-bottom:2rem;
+}
+.notice .icon{color:var(--warn);margin-top:.15rem}
+.notice strong{color:#ffe9b0}
+.def-box{
+  position:relative;overflow:hidden;border-radius:var(--radius);border:1px solid var(--border);padding:2rem;margin-bottom:1.6rem;
+  background:linear-gradient(135deg,rgba(59,130,246,.18),rgba(34,211,238,.06)),var(--surface);
+}
+.def-box h3{font-size:1.5rem;margin-bottom:.5rem}
+.def-box .sigla{font-size:.8rem;letter-spacing:.14em;color:var(--accent);font-weight:700;text-transform:uppercase}
+.def-wave{position:absolute;right:-10px;bottom:-6px;width:min(340px,60%);opacity:.5;pointer-events:none}
+
+/* ---------- Galeria ---------- */
+.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:1.6rem}
+.shot{margin:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform .3s,border-color .3s}
+.shot:hover{transform:translateY(-4px);border-color:rgba(34,211,238,.45)}
+.shot .frame{aspect-ratio:16/10;background:#06101f;display:grid;place-items:center}
+.shot img{width:100%;height:100%;object-fit:contain;object-position:center}
+.shot figcaption{padding:1.2rem 1.4rem 1.4rem}
+.shot figcaption b{display:block;color:var(--text);margin-bottom:.3rem}
+.shot figcaption span{color:var(--muted);font-size:.92rem}
+@media (max-width:760px){.gallery{grid-template-columns:1fr}}
+
+/* ---------- Linha do tempo ---------- */
+.timeline{position:relative;display:grid;gap:1.3rem;padding-left:0}
+.timeline::before{content:"";position:absolute;left:23px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--accent),var(--accent-2),transparent)}
+.tl-item{position:relative;display:grid;grid-template-columns:48px 1fr;gap:1.3rem;align-items:start}
+.tl-num{
+  position:relative;z-index:1;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-weight:800;
+  background:var(--bg-2);border:2px solid var(--accent);color:var(--accent);box-shadow:0 0 0 6px var(--bg-2),0 0 22px rgba(34,211,238,.3);
+}
+.tl-body{background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem 1.5rem;transition:border-color .3s,transform .3s}
+.tl-body:hover{border-color:rgba(34,211,238,.45);transform:translateX(4px)}
+.tl-body h3{font-size:1.1rem;margin-bottom:.35rem}
+.tl-body p{color:var(--muted);font-size:.95rem}
+
+/* ---------- Equipe ---------- */
+.team{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.4rem}
+.member{text-align:center}
+.avatar{
+  width:104px;height:104px;border-radius:50%;margin:0 auto 1.2rem;display:grid;place-items:center;overflow:hidden;
+  background:linear-gradient(135deg,rgba(34,211,238,.25),rgba(59,130,246,.25));border:2px solid rgba(34,211,238,.5);color:var(--accent);
+}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.avatar .icon{width:44px;height:44px}
+.member h3{font-size:1.1rem}
+.member .role{color:var(--accent);font-size:.9rem;font-weight:600;margin:.35rem 0 .9rem}
+.member dl{margin:0;text-align:left;border-top:1px solid var(--border);padding-top:1rem;display:grid;gap:.6rem}
+.member dt{font-size:.74rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.member dd{margin:0;color:var(--text);font-size:.93rem}
+
+/* ---------- Referências ---------- */
+.refs{display:grid;gap:1rem}
+.ref{display:grid;grid-template-columns:auto 1fr;gap:1.1rem;align-items:start;padding:1.2rem 1.4rem}
+.ref .tag{
+  font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);
+  background:var(--accent-soft);border:1px solid rgba(34,211,238,.28);padding:.3rem .7rem;border-radius:999px;white-space:nowrap;
+}
+.ref p{color:var(--text);font-size:.97rem}
+.ref .meta{color:var(--muted);font-size:.88rem;margin-top:.25rem}
+@media (max-width:620px){.ref{grid-template-columns:1fr}}
+
+/* ---------- Rodapé ---------- */
+.footer{background:#030812;border-top:1px solid var(--border);padding:4rem 0 2rem}
+.footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:2.5rem}
+.footer h4{font-size:.8rem;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1rem}
+.footer p,.footer dd,.footer li{color:var(--muted);font-size:.93rem}
+.footer dl{margin:0;display:grid;gap:.55rem}
+.footer dt{display:inline;color:var(--text);font-weight:600}
+.footer dt::after{content:": "}
+.footer dd{display:inline;margin:0}
+.footer li{margin-bottom:.5rem}
+.footer li a{color:var(--muted)}
+.footer li a:hover{color:var(--accent);text-decoration:none}
+.footer-note{
+  margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:.6rem 2rem;
+  justify-content:space-between;color:var(--muted);font-size:.85rem;
+}
+@media (max-width:820px){.footer-grid{grid-template-columns:1fr}}
+
+/* ---------- Animações de entrada ---------- */
+.js .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease;transition-delay:var(--d,0s)}
+.js .reveal.in{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .js .reveal{opacity:1;transform:none}
+}
+@media (max-width:640px){
+  .section{padding:4.2rem 0}
+  .card{padding:1.4rem}
+}
+</style>
+</head>
+
+<body>
+
+<!-- Ícones (sprite local — funciona 100% offline) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-wifi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 19.5h.01"/></symbol>
+    <symbol id="i-chip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M9 3v2M15 3v2M9 19v2M15 19v2M3 9h2M3 15h2M19 9h2M19 15h2"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H20v15H5.5A1.5 1.5 0 0 0 4 19.5z"/><path d="M4 19.5A1.5 1.5 0 0 0 5.5 21H20v-3"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></symbol>
+    <symbol id="i-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3 10h18"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+    <symbol id="i-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6L4.5 19a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L14 9V3M7.5 15h9"/></symbol>
+    <symbol id="i-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h3l2-6 4 12 3-9 2 3h4"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2.5 20h19z"/><path d="M12 10v5M12 18h.01"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+    <symbol id="i-magnet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v8a7 7 0 0 0 14 0V3h-4v8a3 3 0 0 1-6 0V3z"/><path d="M5 7h4M15 7h4"/></symbol>
+  </defs>
+</svg>
+
+<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+<!-- ==================== SEÇÃO 1 — HEADER ==================== -->
+<header class="header" id="topo">
+  <div class="container header-inner">
+    <a class="logo" href="#inicio" aria-label="Projeto NFC e EMP — ir para o início">
+      <span class="logo-mark"><svg class="icon" aria-hidden="true"><use href="#i-wifi"/></svg></span>
+      <span>NFC <small>&amp;</small> EMP</span>
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">
+      <span class="bars" aria-hidden="true"><span></span><span></span><span></span></span>
+    </button>
+
+    <nav class="nav" id="menu" aria-label="Navegação principal">
+      <ul>
+        <li><a href="#inicio">Início</a></li>
+        <li><a href="#sobre">Sobre o Projeto</a></li>
+        <li><a href="#nfc">NFC</a></li>
+        <li><a href="#emp">EMP</a></li>
+        <li><a href="#desenvolvimento">Desenvolvimento</a></li>
+        <li><a href="#equipe">Equipe</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="conteudo">
+
+<!-- ==================== SEÇÃO 2 — HERO ==================== -->
+<section class="hero" id="inicio" aria-labelledby="hero-titulo">
+  <div class="container hero-grid">
+    <div class="reveal">
+      <span class="eyebrow">Projeto Acadêmico | Tecnologia e Inovação</span>
+      <h1 id="hero-titulo"><span class="grad">NFC e EMP:</span> explorando a tecnologia e o eletromagnetismo</h1>
+      <!-- EDITE: subtítulo do projeto -->
+      <p class="lead">Um projeto universitário que investiga como a comunicação por aproximação (NFC) se relaciona com os fenômenos eletromagnéticos, do princípio físico às aplicações do dia a dia.</p>
+
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#sobre">Conheça o Projeto
+          <svg class="icon" aria-hidden="true" style="width:1.1em;height:1.1em"><use href="#i-bolt"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="#equipe">Nossa Equipe</a>
+      </div>
+
+      <ul class="facts" aria-label="Fatos rápidos sobre o NFC">
+        <li class="fact"><strong>13,56 MHz</strong><span>frequência de operação do NFC</span></li>
+        <li class="fact"><strong>~4 cm</strong><span>alcance típico de leitura</span></li>
+        <li class="fact"><strong>ISO/IEC 14443</strong><span>base de padrões de proximidade</span></li>
+      </ul>
+    </div>
+
+    <!-- Composição gráfica original (SVG) -->
+    <div class="hero-art reveal" style="--d:.15s">
+      <svg viewBox="0 0 480 480" role="img" aria-labelledby="heroArtT heroArtD">
+        <title id="heroArtT">Composição gráfica de comunicação por proximidade</title>
+        <desc id="heroArtD">Um smartphone à esquerda e uma etiqueta NFC à direita, ligados por ondas circulares concêntricas que representam o campo eletromagnético.</desc>
+        <defs>
+          <linearGradient id="gA" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#3b82f6"/>
+          </linearGradient>
+          <radialGradient id="gGlow">
+            <stop offset="0" stop-color="#22d3ee" stop-opacity=".32"/>
+            <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <circle cx="240" cy="240" r="228" fill="url(#gGlow)"/>
+        <g fill="none" stroke="url(#gA)" stroke-width="1.6">
+          <circle class="ring r1" cx="240" cy="240" r="62"/>
+          <circle class="ring r2" cx="240" cy="240" r="105"/>
+          <circle class="ring r3" cx="240" cy="240" r="148"/>
+          <circle class="ring r4" cx="240" cy="240" r="192"/>
+        </g>
+
+        <!-- smartphone -->
+        <g class="float" transform="translate(34 148)">
+          <rect width="104" height="184" rx="20" fill="#0c1a2f" stroke="#22d3ee" stroke-width="2"/>
+          <rect x="36" y="9" width="32" height="5" rx="2.5" fill="#22d3ee" opacity=".6"/>
+          <rect x="12" y="28" width="80" height="128" rx="10" fill="#08142a" stroke="#3b82f6" stroke-opacity=".5"/>
+          <path d="M34 92a18 18 0 0 1 36 0M25 92a27 27 0 0 1 54 0" fill="none" stroke="#22d3ee" stroke-width="3" stroke-linecap="round" transform="rotate(90 52 92) translate(0 0)"/>
+          <circle cx="52" cy="92" r="5" fill="#22d3ee"/>
+          <rect x="38" y="166" width="28" height="4" rx="2" fill="#a3b6d1" opacity=".5"/>
+        </g>
+
+        <!-- etiqueta NFC -->
+        <g class="float" style="animation-delay:.8s" transform="translate(338 188)">
+          <rect width="112" height="112" rx="18" fill="#0c1a2f" stroke="#3b82f6" stroke-width="2"/>
+          <rect x="18" y="18" width="76" height="76" rx="12" fill="none" stroke="#22d3ee" stroke-width="2.2"/>
+          <rect x="28" y="28" width="56" height="56" rx="8" fill="none" stroke="#22d3ee" stroke-width="2.2" opacity=".8"/>
+          <rect x="38" y="38" width="36" height="36" rx="5" fill="none" stroke="#22d3ee" stroke-width="2.2" opacity=".6"/>
+          <rect x="46" y="46" width="20" height="20" rx="4" fill="url(#gA)"/>
+        </g>
+
+        <!-- núcleo -->
+        <circle cx="240" cy="240" r="30" fill="url(#gA)"/>
+        <g transform="translate(224 224)" fill="none" stroke="#04101f" stroke-width="2.4" stroke-linecap="round">
+          <path d="M6 10a14 14 0 0 1 0 12M11 6.5a20 20 0 0 1 0 19M16 3a26 26 0 0 1 0 26" transform="translate(4 0)"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SEÇÃO 3 — SOBRE O PROJETO ==================== -->
+<section class="section" id="sobre" aria-labelledby="sobre-titulo">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker">Sobre o projeto</span>
+      <h2 id="sobre-titulo">Do problema à proposta</h2>
+      <p>Os blocos abaixo organizam a base do trabalho. Os textos em destaque tracejado são provisórios: substitua pelo conteúdo real do grupo.</p>
+    </div>
+
+    <div class="grid grid-3">
+      <article class="card reveal">
+        <div class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg></div>
+        <h3>Contextualização</h3>
+        <p class="ph">[Inserir contextualização: cenário em que o NFC e o EMP se inserem e por que o tema é relevante hoje.]</p>
+      </article>
+
+      <article class="card reveal" style="--d:.08s">
+        <div class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg></div>
+        <h3>Problema investigado</h3>
+        <p class="ph">[Inserir a pergunta ou o problema que o projeto busca responder.]</p>
+      </article>
+
+      <article class="card reveal" style="--d:.16s">
+        <div class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-bulb"/></svg></div>
+        <h3>Justificativa</h3>
+        <p class="ph">[Inserir justificativa: motivos que levaram o grupo a escolher este tema.]</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg></div>
+        <h3>Objetivo geral</h3>
+        <p class="ph">[Inserir o objetivo geral do projeto.]</p>
+      </article>
+
+      <article class="card reveal" style="--d:.08s">
+        <div class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-list"/></svg></div>
+        <h3>Objetivos específicos</h3>
+        <ul class="dots">
+          <li class="ph" style="border:0;padding-left:1.1rem;margin-top:.45rem">[Objetivo específico 1]</li>
+          <li class="ph" style="border:0;padding-left:1.1rem">[Objetivo específico 2]</li>
+          <li class="ph" style="border:0;padding-left:1.1rem">[Objetivo específico 3]</li>
+        </ul>
+      </article>
+
+      <article class="card reveal" style="--d:.16s">
+        <div class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-star"/></svg></div>
+        <h3>Importância acadêmica e tecnológica</h3>
+        <p class="ph">[Inserir a contribuição do projeto para a formação do grupo e para a área de tecnologia.]</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SEÇÃO 4 — NFC ==================== -->
+<section class="section alt" id="nfc" aria-labelledby="nfc-titulo">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker">Entendendo o NFC</span>
+      <h2 id="nfc-titulo">Near Field Communication: dados a poucos centímetros</h2>
+      <p>O NFC é uma tecnologia de comunicação sem fio de curtíssimo alcance, baseada em campos magnéticos. Conteúdo conceitual de referência; ajuste conforme a abordagem do grupo.</p>
+    </div>
+
+    <div class="split">
+      <figure class="figure reveal" aria-labelledby="nfc-fig-cap">
+        <svg viewBox="0 0 640 320" role="img" aria-labelledby="nfcFigT nfcFigD">
+          <title id="nfcFigT">Diagrama do acoplamento indutivo no NFC</title>
+          <desc id="nfcFigD">À esquerda, um leitor com uma bobina gera um campo magnético alternado. As linhas do campo atravessam o espaço até uma etiqueta passiva à direita, cuja bobina recebe energia por indução e responde ao leitor.</desc>
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 10 5 0 10z" fill="#22d3ee"/>
+            </marker>
+          </defs>
+          <!-- leitor -->
+          <rect x="30" y="70" width="160" height="170" rx="20" fill="#0c1a2f" stroke="#22d3ee" stroke-width="2"/>
+          <g fill="none" stroke="#22d3ee" stroke-width="2.4">
+            <ellipse cx="110" cy="155" rx="44" ry="56"/>
+            <ellipse cx="110" cy="155" rx="30" ry="40" opacity=".8"/>
+            <ellipse cx="110" cy="155" rx="16" ry="24" opacity=".6"/>
+          </g>
+          <!-- linhas de campo -->
+          <g fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="6 6" opacity=".9">
+            <path d="M190 120C250 30 390 30 450 120"/>
+            <path d="M190 190C250 280 390 280 450 190"/>
+            <path d="M190 100C260 -10 380 -10 450 100" opacity=".5"/>
+            <path d="M190 210C260 320 380 320 450 210" opacity=".5"/>
+          </g>
+          <path d="M196 155H444" stroke="#22d3ee" stroke-width="2.2" marker-end="url(#arr)" marker-start="url(#arr)"/>
+          <!-- etiqueta -->
+          <rect x="450" y="90" width="160" height="130" rx="16" fill="#0c1a2f" stroke="#3b82f6" stroke-width="2"/>
+          <g fill="none" stroke="#22d3ee" stroke-width="2.4">
+            <ellipse cx="530" cy="155" rx="54" ry="42"/>
+            <ellipse cx="530" cy="155" rx="39" ry="30" opacity=".8"/>
+            <ellipse cx="530" cy="155" rx="24" ry="18" opacity=".6"/>
+          </g>
+          <rect x="516" y="146" width="28" height="18" rx="3" fill="#3b82f6"/>
+          <!-- rótulos -->
+          <g font-family="Arial,Helvetica,sans-serif" font-size="14" fill="#cfe3ff" text-anchor="middle">
+            <text x="110" y="268">Leitor (ex.: smartphone)</text>
+            <text x="110" y="288" fill="#8fdcee" font-size="12">bobina emissora</text>
+            <text x="320" y="152" dy="-10" fill="#8fdcee" font-size="12">dados ⇄ energia</text>
+            <text x="530" y="248">Etiqueta ou cartão passivo</text>
+            <text x="530" y="268" fill="#8fdcee" font-size="12">bobina recebe tensão induzida</text>
+            <text x="320" y="306" fill="#a3b6d1" font-size="12">campo magnético alternado, 13,56 MHz</text>
+          </g>
+        </svg>
+        <figcaption id="nfc-fig-cap"><strong>Figura 1.</strong> Acoplamento indutivo entre leitor e etiqueta NFC. Ilustração esquemática original, fora de escala. <em>Descrição acessível: um leitor à esquerda emite um campo magnético que alcança a bobina de uma etiqueta à direita, alimentando-a e permitindo a troca de dados.</em></figcaption>
+      </figure>
+
+      <div class="reveal" style="--d:.12s">
+        <h3>Como funciona a comunicação por aproximação</h3>
+        <ol class="steps-mini">
+          <li><span><b>O leitor gera o campo.</b> Uma corrente alternada de 13,56 MHz na bobina cria um campo magnético variável.</span></li>
+          <li><span><b>A etiqueta capta energia.</b> A variação do fluxo induz tensão na bobina da etiqueta passiva, que não precisa de bateria.</span></li>
+          <li><span><b>A etiqueta responde.</b> Ela altera a própria carga elétrica (modulação de carga), e o leitor detecta a mudança no campo.</span></li>
+          <li><span><b>Os dados são trocados.</b> Em segundos, a informação é lida, validada e processada pelo aplicativo.</span></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="grid grid-3">
+      <article class="card reveal">
+        <div class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-wifi"/></svg></div>
+        <h3>O que é NFC</h3>
+        <p>Tecnologia sem fio de curto alcance, derivada da identificação por radiofrequência (RFID) de alta frequência. Opera em 13,56 MHz e permite três modos: leitura e gravação de etiquetas, emulação de cartão e comunicação ponto a ponto entre dispositivos.</p>
+      </article>
+
+      <article class="card reveal" style="--d:.08s">
+        <div class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-magnet"/></svg></div>
+        <h3>Princípios físicos</h3>
+        <p>Baseia-se na indução eletromagnética (Lei de Faraday–Lenz) e no acoplamento indutivo entre duas bobinas, geralmente sintonizadas por circuitos LC. Em campo próximo, a intensidade do campo magnético cai rapidamente com a distância, o que explica o alcance de poucos centímetros.</p>
+      </article>
+
+      <article class="card reveal" style="--d:.16s">
+        <div class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-chip"/></svg></div>
+        <h3>Componentes e dispositivos</h3>
+        <ul class="dots">
+          <li>Leitor ou controlador NFC (smartphones, terminais de pagamento)</li>
+          <li>Antena em forma de bobina</li>
+          <li>Etiquetas e cartões, com chip e antena integrados</li>
+          <li>Elemento seguro, em aplicações de pagamento e acesso</li>
+        </ul>
+      </article>
+    </div>
+
+    <h3 class="subhead reveal">Aplicações no cotidiano</h3>
+    <ul class="chips reveal" aria-label="Aplicações do NFC">
+      <li class="chip"><svg class="icon" aria-hidden="true"><use href="#i-card"/></svg>Pagamentos por aproximação</li>
+      <li class="chip"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg>Bilhetes de transporte</li>
+      <li class="chip"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg>Controle de acesso</li>
+      <li class="chip"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>Pareamento de dispositivos</li>
+      <li class="chip"><svg class="icon" aria-hidden="true"><use href="#i-wifi"/></svg>Etiquetas informativas</li>
+    </ul>
+
+    <div class="grid grid-2 proscons" style="margin-top:2.4rem">
+      <article class="card pro reveal">
+        <h3><svg class="icon" aria-hidden="true" style="color:var(--ok)"><use href="#i-check"/></svg>Vantagens</h3>
+        <ul>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Interação rápida e intuitiva: basta aproximar</li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Etiquetas passivas funcionam sem bateria</li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Baixo consumo e baixo custo das etiquetas</li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Alcance curto reduz interferências e leituras acidentais</li>
+        </ul>
+      </article>
+
+      <article class="card con reveal" style="--d:.1s">
+        <h3><svg class="icon" aria-hidden="true" style="color:var(--warn)"><use href="#i-alert"/></svg>Limitações</h3>
+        <ul>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>Alcance de apenas alguns centímetros</li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>Taxa de transferência baixa, indicada para pequenos volumes de dados</li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>Exige medidas de segurança contra interceptação e ataques de retransmissão</li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>Depende de compatibilidade entre leitor, etiqueta e aplicativo</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SEÇÃO 5 — EMP ==================== -->
+<section class="section" id="emp" aria-labelledby="emp-titulo">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker">Entendendo o EMP</span>
+      <h2 id="emp-titulo">O conceito de EMP no projeto</h2>
+      <p>Esta seção está estruturada e pronta para receber a definição adotada pelo grupo.</p>
+    </div>
+
+    <div class="notice reveal" role="note">
+      <svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg>
+      <p><strong>Atenção, integrantes do grupo:</strong> a sigla EMP não foi interpretada nesta página. Substitua os textos provisórios abaixo conforme a definição correta usada no projeto e, se necessário, renomeie os títulos dos cartões.</p>
+    </div>
+
+    <!--
+      EDITE: defina aqui a sigla e o significado.
+      Exemplo de preenchimento: <span class="sigla">EMP</span> e <h3>Significado completo</h3>
+    -->
+    <div class="def-box reveal">
+      <span class="sigla">EMP</span>
+      <h3>[Inserir o significado da sigla EMP]</h3>
+      <p class="ph" style="max-width:62ch">[Inserir a definição do conceito, exatamente como adotada no projeto.]</p>
+      <svg class="def-wave" viewBox="0 0 340 90" aria-hidden="true" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M0 45h70l12-38 16 76 14-60 10 22h30l10-30 14 50 12-36h60l12-18 14 36 10-12h46"/>
+      </svg>
+    </div>
+
+    <div class="grid grid-3">
+      <article class="card reveal">
+        <div class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-flask"/></svg></div>
+        <h3>Princípios físicos envolvidos</h3>
+        <p class="ph">[Inserir os fenômenos físicos que explicam o conceito.]</p>
+      </article>
+
+      <article class="card reveal" style="--d:.08s">
+        <div class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-magnet"/></svg></div>
+        <h3>Relação com campos eletromagnéticos</h3>
+        <p class="ph">[Inserir como o conceito se relaciona com campos elétricos e magnéticos, quando aplicável.]</p>
+      </article>
+
+      <article class="card reveal" style="--d:.16s">
+        <div class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-pulse"/></svg></div>
+        <h3>Funcionamento e características</h3>
+        <p class="ph">[Inserir como funciona e quais são as principais características.]</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-chip"/></svg></div>
+        <h3>Aplicações tecnológicas e científicas</h3>
+        <p class="ph">[Inserir aplicações relevantes, com fonte.]</p>
+      </article>
+
+      <article class="card reveal" style="--d:.08s">
+        <div class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg></div>
+        <h3>Limitações e segurança</h3>
+        <p class="ph">[Inserir limitações e cuidados de segurança associados ao tema.]</p>
+      </article>
+
+      <article class="card reveal" style="--d:.16s">
+        <div class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-link"/></svg></div>
+        <h3>Relação com o NFC</h3>
+        <p class="ph">[Inserir como o EMP se conecta ao NFC dentro do projeto.]</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SEÇÃO 6 — GALERIA ==================== -->
+<section class="section alt" id="galeria" aria-labelledby="galeria-titulo">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker">Galeria do projeto</span>
+      <h2 id="galeria-titulo">Imagens do projeto</h2>
+      <p>Duas áreas de imagem. Para trocar, altere o <code>src</code>, o <code>alt</code> e a legenda em cada bloco.</p>
+    </div>
+
+    <div class="gallery">
+      <!-- IMAGEM 01 — troque src (ex.: "imagens/nfc.jpg"), alt e legenda -->
+      <figure class="shot reveal">
+        <div class="frame">
+          <img
+            src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 500'%3E%3Crect width='800' height='500' fill='%230c1a2f'/%3E%3Cg fill='none' stroke='%2322d3ee' stroke-width='3'%3E%3Ccircle cx='400' cy='215' r='50'/%3E%3Ccircle cx='400' cy='215' r='95' opacity='.6'/%3E%3Ccircle cx='400' cy='215' r='140' opacity='.3'/%3E%3C/g%3E%3Ctext x='400' y='215' fill='%2322d3ee' font-family='Arial' font-size='30' font-weight='700' text-anchor='middle' dy='10'%3ENFC%3C/text%3E%3Ctext x='400' y='450' fill='%23a3b6d1' font-family='Arial' font-size='24' text-anchor='middle'%3EImagem provis%C3%B3ria 01 (substituir)%3C/text%3E%3C/svg%3E"
+            alt="Imagem provisória: representação do funcionamento do NFC. Substitua por uma foto, diagrama ou ilustração do projeto."
+            loading="lazy" width="800" height="500">
+        </div>
+        <figcaption><b>Imagem 01 — Representação do NFC</b><span>[Legenda editável: descreva o que a imagem mostra.]</span></figcaption>
+      </figure>
+
+      <!-- IMAGEM 02 — troque src (ex.: "imagens/emp.jpg"), alt e legenda -->
+      <figure class="shot reveal" style="--d:.1s">
+        <div class="frame">
+          <img
+            src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 500'%3E%3Crect width='800' height='500' fill='%230c1a2f'/%3E%3Cpath d='M120 215h140l24-90 36 180 30-130 20 40h60l22-60 28 100 20-60h140' fill='none' stroke='%2322d3ee' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ctext x='400' y='450' fill='%23a3b6d1' font-family='Arial' font-size='24' text-anchor='middle'%3EImagem provis%C3%B3ria 02 (substituir)%3C/text%3E%3C/svg%3E"
+            alt="Imagem provisória: experimento ou representação do EMP. Substitua por uma foto do protótipo, esquema do experimento ou ilustração do tema."
+            loading="lazy" width="800" height="500">
+        </div>
+        <figcaption><b>Imagem 02 — Experimento ou representação do EMP</b><span>[Legenda editável: descreva o experimento ou a ilustração.]</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SEÇÃO 7 — DESENVOLVIMENTO ==================== -->
+<section class="section" id="desenvolvimento" aria-labelledby="dev-titulo">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker">Desenvolvimento e metodologia</span>
+      <h2 id="dev-titulo">Como o projeto é construído</h2>
+      <p>Sete etapas do trabalho. Edite títulos e descrições para refletir o que o grupo realmente fez ou fará.</p>
+    </div>
+
+    <ol class="timeline">
+      <li class="tl-item reveal">
+        <span class="tl-num" aria-hidden="true">1</span>
+        <div class="tl-body"><h3>Pesquisa bibliográfica e fundamentação teórica</h3><p>Levantamento de livros, artigos e documentação técnica sobre NFC e EMP.</p></div>
+      </li>
+      <li class="tl-item reveal">
+        <span class="tl-num" aria-hidden="true">2</span>
+        <div class="tl-body"><h3>Planejamento do projeto</h3><p>Definição de escopo, cronograma e divisão de tarefas entre os integrantes.</p></div>
+      </li>
+      <li class="tl-item reveal">
+        <span class="tl-num" aria-hidden="true">3</span>
+        <div class="tl-body"><h3>Seleção dos materiais e recursos</h3><p>Escolha dos componentes, equipamentos e ferramentas necessários.</p></div>
+      </li>
+      <li class="tl-item reveal">
+        <span class="tl-num" aria-hidden="true">4</span>
+        <div class="tl-body"><h3>Desenvolvimento ou montagem do protótipo</h3><p>Construção do experimento ou protótipo, se aplicável ao projeto.</p></div>
+      </li>
+      <li class="tl-item reveal">
+        <span class="tl-num" aria-hidden="true">5</span>
+        <div class="tl-body"><h3>Testes e observações</h3><p>Realização dos testes e registro das observações.</p></div>
+      </li>
+      <li class="tl-item reveal">
+        <span class="tl-num" aria-hidden="true">6</span>
+        <div class="tl-body"><h3>Análise dos resultados</h3><p>Interpretação dos dados obtidos à luz da fundamentação teórica.</p></div>
+      </li>
+      <li class="tl-item reveal">
+        <span class="tl-num" aria-hidden="true">7</span>
+        <div class="tl-body"><h3>Conclusão</h3><p>Síntese dos aprendizados e fechamento do trabalho.</p></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ==================== SEÇÃO 8 — RESULTADOS ==================== -->
+<section class="section alt" id="resultados" aria-labelledby="res-titulo">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker">Resultados e conclusões</span>
+      <h2 id="res-titulo">O que descobrimos</h2>
+      <p>Nenhum resultado foi preenchido automaticamente. Insira apenas dados reais obtidos pelo grupo.</p>
+    </div>
+
+    <div class="grid grid-3">
+      <article class="card reveal">
+        <div class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg></div>
+        <h3>Resultados obtidos</h3>
+        <p class="ph">[Inserir resultados do experimento]</p>
+      </article>
+      <article class="card reveal" style="--d:.08s">
+        <div class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg></div>
+        <h3>Observações experimentais</h3>
+        <p class="ph">[Inserir observações feitas durante os testes]</p>
+      </article>
+      <article class="card reveal" style="--d:.16s">
+        <div class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg></div>
+        <h3>Dificuldades encontradas</h3>
+        <p class="ph">[Inserir dificuldades enfrentadas pelo grupo]</p>
+      </article>
+      <article class="card reveal">
+        <div class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-bulb"/></svg></div>
+        <h3>Aprendizados do grupo</h3>
+        <p class="ph">[Inserir principais aprendizados]</p>
+      </article>
+      <article class="card reveal" style="--d:.08s">
+        <div class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg></div>
+        <h3>Conclusões</h3>
+        <p class="ph">[Inserir conclusões do projeto]</p>
+      </article>
+      <article class="card reveal" style="--d:.16s">
+        <div class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-bolt"/></svg></div>
+        <h3>Melhorias e trabalhos futuros</h3>
+        <p class="ph">[Inserir possíveis melhorias e próximos passos]</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SEÇÃO 9 — EQUIPE ==================== -->
+<section class="section" id="equipe" aria-labelledby="equipe-titulo">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker">Integrantes da equipe</span>
+      <h2 id="equipe-titulo">Quem faz o projeto acontecer</h2>
+      <p>Para adicionar ou remover integrantes, edite a lista <code>TEAM</code> no início do script, no final deste arquivo.</p>
+    </div>
+    <div class="team" id="team-list">
+      <noscript><p class="ph">Ative o JavaScript para ver os integrantes da equipe.</p></noscript>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SEÇÃO 10 — REFERÊNCIAS ==================== -->
+<section class="section alt" id="referencias" aria-labelledby="ref-titulo">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker">Referências bibliográficas</span>
+      <h2 id="ref-titulo">Fontes consultadas</h2>
+      <p>Edite a lista <code>REFERENCES</code> no script para incluir livros, artigos científicos, documentação técnica, sites institucionais e normas. Use apenas fontes realmente consultadas.</p>
+    </div>
+    <div class="refs" id="ref-list">
+      <noscript><p class="ph">Ative o JavaScript para ver as referências.</p></noscript>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ==================== SEÇÃO 11 — RODAPÉ ==================== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a class="logo" href="#inicio" style="margin-bottom:1rem">
+          <span class="logo-mark"><svg class="icon" aria-hidden="true"><use href="#i-wifi"/></svg></span>
+          <span data-cfg="projectName">Projeto NFC e EMP</span>
+        </a>
+        <p>Landing page de apresentação de um trabalho universitário sobre comunicação por proximidade e eletromagnetismo.</p>
+      </div>
+
+      <div>
+        <h4>Informações acadêmicas</h4>
+        <dl>
+          <div><dt>Instituição</dt><dd data-cfg="institution">USF</dd></div>
+          <div><dt>Curso</dt><dd data-cfg="course">Engenharia da Computação</dd></div>
+          <div><dt>Disciplina</dt><dd data-cfg="discipline">[Disciplina]</dd></div>
+          <div><dt>Professor(a)</dt><dd data-cfg="professor">[Professor(a) responsável]</dd></div>
+          <div><dt>Ano</dt><dd data-cfg="year">2026</dd></div>
+        </dl>
+      </div>
+
+      <div>
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="#inicio">Início</a></li>
+          <li><a href="#sobre">Sobre o Projeto</a></li>
+          <li><a href="#nfc">NFC</a></li>
+          <li><a href="#emp">EMP</a></li>
+          <li><a href="#desenvolvimento">Desenvolvimento</a></li>
+          <li><a href="#equipe">Equipe</a></li>
+          <li><a href="#referencias">Referências</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      <span>Este é um projeto acadêmico, sem fins comerciais.</span>
+      <a href="#topo">Voltar ao topo ↑</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ==========================================================
+   CONFIGURAÇÃO — edite os dados do projeto aqui
+   ========================================================== */
+const CONFIG = {
+  projectName: "Projeto NFC e EMP",
+  institution: "USF",
+  course: "Engenharia da Computação",
+  discipline: "[Disciplina]",
+  professor: "[Professor(a) responsável]",
+  year: "2026"
+};
+
+/* Para adicionar um integrante, copie um bloco { ... }.
+   Para usar foto, preencha "foto" com o caminho da imagem (ex.: "imagens/ana.jpg"). */
+const TEAM = [
+  { nome: "[Nome completo do integrante 1]", curso: "[Curso e período]", funcao: "[Função no projeto]", area: "[Área de responsabilidade]", foto: "" },
+  { nome: "[Nome completo do integrante 2]", curso: "[Curso e período]", funcao: "[Função no projeto]", area: "[Área de responsabilidade]", foto: "" },
+  { nome: "[Nome completo do integrante 3]", curso: "[Curso e período]", funcao: "[Função no projeto]", area: "[Área de responsabilidade]", foto: "" }
+];
+
+/* tipo: Livro | Artigo científico | Documentação técnica | Site institucional | Norma ou publicação.
+   "link" é opcional (deixe "" se não houver). Não inclua fontes que não foram consultadas. */
+const REFERENCES = [
+  { tipo: "Livro",                autor: "[Autor]", titulo: "[Título]", ano: "[Ano]", link: "" },
+  { tipo: "Artigo científico",    autor: "[Autor]", titulo: "[Título]", ano: "[Ano]", link: "" },
+  { tipo: "Documentação técnica", autor: "[Autor ou organização]", titulo: "[Título]", ano: "[Ano]", link: "" },
+  { tipo: "Site institucional",   autor: "[Instituição]", titulo: "[Título da página]", ano: "[Ano]", link: "" },
+  { tipo: "Norma ou publicação",  autor: "[Organização]", titulo: "[Título]", ano: "[Ano]", link: "" }
+];
+
+/* ==========================================================
+   CÓDIGO — normalmente não precisa ser alterado
+   ========================================================== */
+(function () {
+  "use strict";
+
+  /* Helper para criar elementos sem usar innerHTML (mais seguro) */
+  function el(tag, attrs, children) {
+    var node = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      if (k === "class") node.className = attrs[k];
+      else if (k === "text") node.textContent = attrs[k];
+      else node.setAttribute(k, attrs[k]);
+    });
+    (children || []).forEach(function (c) { node.appendChild(c); });
+    return node;
+  }
+  function icon(id) {
+    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("class", "icon");
+    svg.setAttribute("aria-hidden", "true");
+    var use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+    use.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "#" + id);
+    use.setAttribute("href", "#" + id);
+    svg.appendChild(use);
+    return svg;
+  }
+  function safeUrl(u) { return /^https?:\/\//i.test(u || "") ? u : ""; }
+
+  /* Dados do projeto no rodapé */
+  document.querySelectorAll("[data-cfg]").forEach(function (n) {
+    var v = CONFIG[n.getAttribute("data-cfg")];
+    if (v) n.textContent = v;
+  });
+  document.title = CONFIG.projectName + " | Tecnologia e Inovação";
+
+  /* Equipe */
+  var teamBox = document.getElementById("team-list");
+  if (teamBox) {
+    teamBox.textContent = "";
+    TEAM.forEach(function (m, i) {
+      var avatar = el("div", { "class": "avatar" });
+      if (m.foto) avatar.appendChild(el("img", { src: m.foto, alt: "Foto de " + m.nome, loading: "lazy" }));
+      else avatar.appendChild(icon("i-user"));
+
+      var dl = el("dl", null, [
+        el("div", null, [el("dt", { text: "Curso e período" }), el("dd", { text: m.curso })]),
+        el("div", null, [el("dt", { text: "Área de responsabilidade" }), el("dd", { text: m.area })])
+      ]);
+      var card = el("article", { "class": "card member reveal", style: "--d:" + (i % 3) * 0.08 + "s" }, [
+        avatar,
+        el("h3", { text: m.nome }),
+        el("p", { "class": "role", text: m.funcao }),
+        dl
+      ]);
+      teamBox.appendChild(card);
+    });
+  }
+
+  /* Referências */
+  var refBox = document.getElementById("ref-list");
+  if (refBox) {
+    refBox.textContent = "";
+    REFERENCES.forEach(function (r, i) {
+      var meta = el("p", { "class": "meta" });
+      meta.appendChild(document.createTextNode(r.ano + " · "));
+      var url = safeUrl(r.link);
+      if (url) {
+        var a = el("a", { href: url, target: "_blank", rel: "noopener noreferrer", text: "Acessar fonte" });
+        meta.appendChild(a);
+      } else {
+        meta.appendChild(document.createTextNode("[Link, se disponível]"));
+      }
+      var body = el("div", null, [
+        el("p", { text: r.autor + ". " + r.titulo + "." }),
+        meta
+      ]);
+      refBox.appendChild(el("article", { "class": "card ref reveal", style: "--d:" + (i % 3) * 0.06 + "s" }, [
+        el("span", { "class": "tag", text: r.tipo }),
+        body
+      ]));
+    });
+  }
+
+  /* Menu mobile */
+  var toggle = document.querySelector(".nav-toggle");
+  var nav = document.getElementById("menu");
+  function setMenu(open) {
+    nav.classList.toggle("open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+  }
+  toggle.addEventListener("click", function () {
+    setMenu(toggle.getAttribute("aria-expanded") !== "true");
+  });
+  nav.querySelectorAll("a").forEach(function (a) {
+    a.addEventListener("click", function () { setMenu(false); });
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && nav.classList.contains("open")) { setMenu(false); toggle.focus(); }
+  });
+  window.addEventListener("resize", function () { if (window.innerWidth > 880) setMenu(false); });
+
+  /* Cabeçalho com borda ao rolar */
+  var header = document.querySelector(".header");
+  function onScroll() { header.classList.toggle("scrolled", window.scrollY > 8); }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* Animações de entrada + link ativo no menu */
+  var reveals = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+    reveals.forEach(function (r) { io.observe(r); });
+
+    var links = {};
+    nav.querySelectorAll("a").forEach(function (a) { links[a.getAttribute("href").slice(1)] = a; });
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting && links[en.target.id]) {
+          Object.keys(links).forEach(function (k) { links[k].classList.remove("active"); links[k].removeAttribute("aria-current"); });
+          links[en.target.id].classList.add("active");
+          links[en.target.id].setAttribute("aria-current", "true");
+        }
+      });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    document.querySelectorAll("main section[id]").forEach(function (s) { spy.observe(s); });
+  } else {
+    reveals.forEach(function (r) { r.classList.add("in"); });
+  }
+})();
+</script>
+</body>
+</html>
