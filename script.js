@@ -24,17 +24,51 @@ const TEAM = [
   { nome: "Gabriele Libralão", curso: "Engenharia da computação , 2°semestre ", funcao: "202645621 ", area: "NFC & EMP", foto: "" }
 ];
 
-/* tipo: Livro | Artigo científico | Documentação técnica | Site institucional | Norma ou publicação.
-   "link" é opcional (deixe "" se não houver). Não inclua fontes que não foram consultadas. */
-const REFERENCES = [
-  { tipo: "Documento completo",                autor: "Documento geral com as informações e o desenvolvimento do projeto", titulo: "", ano: "Acesse aqui ->", link: "/Feiradeprojetos.pdf" },
-  { tipo: "ATA",                autor: "Registro do desenvolvimento do projeto", titulo: "", ano: "Acesse aqui ->", link: "/ATA.pdf" },
-  { tipo: "5W2H",    autor: "Planejamento das atividades, objetivos e etapas necessárias para a realização do projeto", titulo: "", ano: "Acesse aqui ->", link: "/5W2H.pdf" },
-  { tipo: "Gantt", autor: "Organização das atividades e de execução do projeto", titulo: "", ano: "Acesse aqui ->", link: "/Gantt.pdf" },
-  { tipo: "Circuito NFC",   autor: "Material referente à montagem do circuito NFC", titulo: "", ano: "Acesse aqui ->", link: "/Circuitonfc.pdf" },
-  { tipo: "Circuito EMFI",  autor: "Material referente à montagem do circuito EMFI", titulo: "", ano: "Acesse aqui ->", link: "/circuitoemp.pdf" }
-];
 
+const REFERENCES = [
+  {
+    tipo: "Documento completo",
+    autor: "Documento geral com as informações e o desenvolvimento do projeto",
+    titulo: "",
+    ano: "Acesse aqui ->",
+    link: "./Feiradeprojetos.pdf"
+  },
+  {
+    tipo: "ATA",
+    autor: "Registro do desenvolvimento do projeto",
+    titulo: "",
+    ano: "Acesse aqui ->",
+    link: "./ATA.pdf"
+  },
+  {
+    tipo: "5W2H",
+    autor: "Planejamento das atividades, objetivos e etapas necessárias para a realização do projeto",
+    titulo: "",
+    ano: "Acesse aqui ->",
+    link: "./5W2H.pdf"
+  },
+  {
+    tipo: "Gantt",
+    autor: "Organização das atividades e de execução do projeto",
+    titulo: "",
+    ano: "Acesse aqui ->",
+    link: "./Gantt.pdf"
+  },
+  {
+    tipo: "Circuito NFC",
+    autor: "Material referente à montagem do circuito NFC",
+    titulo: "",
+    ano: "Acesse aqui ->",
+    link: "./Circuitonfc.pdf"
+  },
+  {
+    tipo: "Circuito EMFI",
+    autor: "Material referente à montagem do circuito EMFI",
+    titulo: "",
+    ano: "Acesse aqui ->",
+    link: "./circuitoemp.pdf"
+  }
+];
 /* ==========================================================
    CÓDIGO — normalmente não precisa ser alterado
    ========================================================== */
