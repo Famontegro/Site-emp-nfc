@@ -1,7 +1,5 @@
 # Site em HTML para o nosso Projeto de NFC e EMP
 
----
-
 ### Sobre:
 Site desenvolvido durante o segundo semestre do curso de Engenharia da Computação na feira de projetos que ocorreu dia 05/11/26 na faculdade **Universidade São Francisco (USF) Campus Bragança Paulista**.
 
