@@ -47,8 +47,8 @@ A ideia foi criar uma página que não apenas apresentasse o projeto, mas també
 ---
 
 ### Participantes do Projeto:
-1. Rafael Montenegro
-2. João Cesar
+1. João Cesar
+2. Rafael Montenegro
 3. Chris Sousa
 4. João Pedro
 5. Náiade Peluso
